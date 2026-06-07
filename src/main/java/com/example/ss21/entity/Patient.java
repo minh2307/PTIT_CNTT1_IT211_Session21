@@ -11,6 +11,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Patient {
 
     @Id
@@ -33,6 +34,7 @@ public class Patient {
 
     private String medicalHistory;
 
+    @Builder.Default
     private boolean active = true;
 }
 

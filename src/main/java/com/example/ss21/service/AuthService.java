@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.List;
+import com.example.ss21.exception.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class AuthService {
             throw new RuntimeException("Wrong password");
         }
 
-        String accessToken = jwtUtil.generateAccessToken(user.getUsername());
+        String accessToken = jwtUtil.generateAccessToken(user.getUsername(), user.getRole().name());
 
         String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
 
@@ -58,7 +60,7 @@ public class AuthService {
             throw new RuntimeException("Refresh token revoked");
         }
 
-        String newAccessToken = jwtUtil.generateAccessToken(token.getUser().getUsername());
+        String newAccessToken = jwtUtil.generateAccessToken(token.getUser().getUsername(), token.getUser().getRole().name());
 
         return new AuthResponse(newAccessToken, refreshToken);
     }
@@ -68,5 +70,16 @@ public class AuthService {
         RefreshToken token = refreshRepo.findByToken(refreshToken).orElseThrow();
         token.setRevoked(true);
         refreshRepo.save(token);
+    }
+
+    public void forceLogout(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        user.setEnabled(false);
+        userRepository.save(user);
+
+        List<RefreshToken> tokens = refreshRepo.findByUserId(userId);
+        tokens.forEach(t -> t.setRevoked(true));
+        refreshRepo.saveAll(tokens);
     }
 }

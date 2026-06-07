@@ -5,6 +5,8 @@ import com.example.ss21.dto.PrescriptionDetailDTO;
 import com.example.ss21.entity.*;
 import com.example.ss21.medicine.Medicine;
 import com.example.ss21.repository.*;
+import com.example.ss21.doctor.entity.Doctor;
+import com.example.ss21.doctor.repository.DoctorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

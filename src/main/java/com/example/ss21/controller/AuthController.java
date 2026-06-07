@@ -36,4 +36,11 @@ public class AuthController {
         authService.logout(accessToken, request.getRefreshToken());
         return ResponseEntity.ok("Logout Success");
     }
+
+    @PostMapping("/users/{userId}/force-logout")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> forceLogout(@PathVariable Long userId) {
+        authService.forceLogout(userId);
+        return ResponseEntity.ok("User has been forced to logout and disabled.");
+    }
 }

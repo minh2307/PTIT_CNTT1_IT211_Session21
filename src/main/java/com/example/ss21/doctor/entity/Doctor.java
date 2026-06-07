@@ -45,4 +45,30 @@ public class Doctor {
 
     @Column(nullable = false)
     private Boolean active;
+
+    // Compatibility methods
+    public String getName() {
+        return this.fullName;
+    }
+
+    public void setName(String name) {
+        this.fullName = name;
+    }
+
+    public String getPhone() {
+        return this.phoneNumber;
+    }
+
+    public void setPhone(String phone) {
+        this.phoneNumber = phone;
+    }
+
+    public boolean isAvailable() {
+        return this.active != null && this.active;
+    }
+
+    public void setAvailable(boolean available) {
+        this.active = available;
+    }
 }
+

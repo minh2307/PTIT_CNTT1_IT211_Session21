@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import com.example.ss21.doctor.entity.Doctor;
 
 @Entity
 @Table(name = "prescriptions")
